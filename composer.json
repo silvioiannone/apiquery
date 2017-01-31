@@ -1,0 +1,16 @@
+{
+    "name": "APIQuery",
+    "description": "Easy to use JSON parser/writer.",
+    "authors": [
+        {
+            "name": "Silvio Iannone"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SI\\Laravel\\": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
