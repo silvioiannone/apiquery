@@ -1,5 +1,5 @@
 {
-    "name": "APIQuery",
+    "name": "silvioiannone/apiquery",
     "description": "Handle DB queries using request parameters with Laravel",
     "authors": [
         {
