@@ -1,6 +1,6 @@
 {
     "name": "APIQuery",
-    "description": "Easy to use JSON parser/writer.",
+    "description": "Handle DB queries using request parameters with Laravel",
     "authors": [
         {
             "name": "Silvio Iannone"
