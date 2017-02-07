@@ -3,6 +3,7 @@
 namespace SI\Laravel;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use SI\Laravel\APIQuery\AbstractAction;
@@ -28,7 +29,7 @@ class APIQuery
     /**
      * Execute the query performing all the needed actions.
      *
-     * @param Model|Relation|Builder $subject
+     * @param Model|Relation|Builder|Collection $subject
      * @return mixed
      */
     public function execute($subject)
@@ -38,6 +39,12 @@ class APIQuery
         foreach($this->getParameterActions() as $parameterAction)
         {
             $this->setSubject($parameterAction->run());
+        }
+
+        // If the subject is a model or a collection just return it
+        if($this->subject instanceof Model || $this->subject instanceof Collection)
+        {
+            return $this->subject;
         }
 
         return $this->subject->get();
@@ -72,18 +79,19 @@ class APIQuery
      * Set the entity that will be processed when the query will be processed.
      * It must be an eloquent model, an eloquent relation or a builder.
      *
-     * @param Model|Relation|Builder $subject
+     * @param Model|Relation|Builder|Collection $subject
      * @throws InvalidSubjectType
      * @return APIQuery
      */
     protected function setSubject($subject): APIQuery
     {
-        if(!($subject instanceof Model ||
-            $subject instanceof Builder ||
-            $subject instanceof Relation)
+        if(!($subject instanceof Model||
+            $subject instanceof Builder||
+            $subject instanceof Relation||
+            $subject instanceof Collection)
         ) {
             throw new InvalidSubjectType(
-                'Subject must be either a model, relation or builder. Given: ' .
+                'Subject must be either a model, relation, builder or collection. Given: ' .
                 (new \ReflectionClass($subject))->getName()
             );
         }
