@@ -3,6 +3,7 @@
 namespace SI\Laravel\APIQuery;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -58,7 +59,8 @@ abstract class AbstractAction
 
         if(!($result instanceof Model ||
             $result instanceof Builder ||
-            $result instanceof Relation)
+            $result instanceof Relation ||
+            $result instanceof Collection)
         ) {
             throw new \Exception(
                 'The action ' . (new \ReflectionClass($this))->getShortName() .

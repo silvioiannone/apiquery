@@ -3,9 +3,9 @@
 namespace SI\Laravel;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Collection;
 use SI\Laravel\APIQuery\AbstractAction;
 use SI\Laravel\APIQuery\Exceptions\InvalidSubjectType;
 

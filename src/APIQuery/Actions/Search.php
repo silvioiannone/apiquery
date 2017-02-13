@@ -2,6 +2,7 @@
 
 namespace SI\Laravel\APIQuery\Actions;
 
+use Illuminate\Database\Eloquent\Collection;
 use SI\Laravel\APIQuery\AbstractAction;
 use SI\Laravel\APIQuery\Exceptions\InvalidQuery;
 
@@ -45,6 +46,16 @@ class Search extends AbstractAction
         $this->validate();
 
         list($column, $value) = $this->getParameters();
+
+        // The 'search' action can't work directly on collections because that would be like doing
+        // for example: User::all()->where(...) and that doesn't work. Instead, if it's a
+        // collection...
+        if($this->subject instanceof Collection)
+        {
+            $subjectModelType = (new \ReflectionClass($this->subject->first()))->getName();
+
+            return (new $subjectModelType)->where($column, 'LIKE', '%' . $value . '%');
+        }
 
         return $this->subject->where($column, 'LIKE', '%' . $value . '%');
     }
