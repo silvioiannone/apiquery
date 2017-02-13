@@ -23,10 +23,8 @@ class With extends AbstractAction
     {
         $explodedParameters = explode(',', $this->getParameterValue());
 
-        // If the subject is a Model we can't just use $this->subject->with(parameter) otherwise it
-        // will return all the users with the specified relations. Instead something like this must
-        // be done: ModelType::with(parameter)->find($this->subject->id). This way only one user
-        // will be fetched.
+        // This action is run before all the others: running $userModel->with('role') is different
+        // than running UserModel::with('role').
         if($this->subject instanceof Model)
         {
             $modelClass = (new \ReflectionClass($this->subject))->getName();
