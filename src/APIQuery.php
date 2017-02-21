@@ -2,7 +2,8 @@
 
 namespace SI\Laravel;
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder as DatabaseBuilder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -22,14 +23,14 @@ use SI\Laravel\APIQuery\Exceptions\InvalidSubjectType;
 class APIQuery
 {
     /**
-     * @var Model|Relation|Builder|Collection $subject
+     * @var Model|Relation|EloquentBuilder|DatabaseBuilder|Collection $subject
      */
     protected $subject;
 
     /**
      * Execute the query performing all the needed actions.
      *
-     * @param Model|Relation|Builder|Collection $subject
+     * @param Model|Relation|EloquentBuilder|DatabaseBuilder|Collection $subject
      * @return mixed
      */
     public function execute($subject)
@@ -107,14 +108,15 @@ class APIQuery
      * Set the entity that will be processed when the query will be processed.
      * It must be an eloquent model, an eloquent relation or a builder.
      *
-     * @param Model|Relation|Builder|Collection $subject
+     * @param Model|Relation|EloquentBuilder|DatabaseBuilder|Collection $subject
      * @throws InvalidSubjectType
      * @return APIQuery
      */
     protected function setSubject($subject): APIQuery
     {
         if(!($subject instanceof Model ||
-            $subject instanceof Builder ||
+            $subject instanceof EloquentBuilder ||
+            $subject instanceof DatabaseBuilder ||
             $subject instanceof Relation ||
             $subject instanceof Collection
         )) {
