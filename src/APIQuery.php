@@ -39,7 +39,11 @@ class APIQuery
 
         foreach($this->getParameterActions() as $parameterAction)
         {
-            $this->setSubject($parameterAction->run());
+            $newSubject = $parameterAction
+                ->setSubject($this->subject)
+                ->run();
+
+            $this->setSubject($newSubject);
         }
 
         if($this->subject instanceof Model || $this->subject instanceof Collection)
@@ -70,7 +74,6 @@ class APIQuery
 
             /** @var AbstractAction $actionInstance */
             $actionInstance = new $className();
-            $actionInstance->setSubject($this->subject);
             $parameterActions[] = $actionInstance;
         };
 
