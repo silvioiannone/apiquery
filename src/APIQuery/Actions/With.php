@@ -25,7 +25,7 @@ class With extends AbstractAction
 
         // This action is run before all the others: running $userModel->with('role') is different
         // than running UserModel::with('role').
-        if($this->subject instanceof Model)
+        if($this->subject instanceof Model && $this->subject->id)
         {
             $modelClass = (new \ReflectionClass($this->subject))->getName();
 
