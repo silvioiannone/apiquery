@@ -2,8 +2,10 @@
 
 namespace SI\Laravel\APIQuery\Actions;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use SI\Laravel\APIQuery\AbstractAction;
+use SI\Laravel\APIQuery\Exceptions\IncompatibleType;
 
 /**
  * This action performs a with operation on the subject allowing to retrieve related models.
@@ -22,6 +24,12 @@ class With extends AbstractAction
     protected function handle()
     {
         $explodedParameters = explode(',', $this->getParameterValue());
+
+        // It's not possible to run the 'with' action if the subject is a collection.
+        if($this->subject instanceof Collection)
+        {
+            throw new IncompatibleType('The subject is not compatible with this action.');
+        }
 
         // This action is run before all the others: running $userModel->with('role') is different
         // than running UserModel::with('role').
