@@ -31,9 +31,11 @@ class APIQuery
      * Execute the query performing all the needed actions.
      *
      * @param Model|Relation|EloquentBuilder|DatabaseBuilder|Collection $subject
+     * @param bool $toCollection If the result is a model and this flag is set a collection with
+     *        that model in it will be returned.
      * @return mixed
      */
-    public function execute($subject)
+    public function execute($subject, bool $toCollection = false)
     {
         $this->setSubject($subject);
 
@@ -48,6 +50,11 @@ class APIQuery
 
         if($this->subject instanceof Model || $this->subject instanceof Collection)
         {
+            if ($toCollection)
+            {
+                return new Collection($this->subject);
+            }
+
             return $this->subject;
         }
 
