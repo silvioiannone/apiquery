@@ -42,6 +42,13 @@ class APIQuery
 
         foreach($this->getParameterActions() as $parameterAction)
         {
+            // If the subject is an empty collection...
+            if ($this->subject instanceof Collection && !$this->subject->count())
+            {
+                // ...we can stop doing everything and just return it.
+                return $this->subject;
+            }
+
             $newSubject = $parameterAction
                 ->setSubject($this->subject)
                 ->run();
