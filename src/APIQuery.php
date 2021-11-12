@@ -7,7 +7,7 @@ use Illuminate\Database\Query\Builder as DatabaseBuilder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use SI\Laravel\APIQuery\AbstractAction;
 use SI\Laravel\APIQuery\Exceptions\InvalidSubjectType;
 
@@ -83,7 +83,7 @@ class APIQuery
         // Loop the parameter requests and try to instantiate the actions
         foreach($actionsToPerform as $parameterKey => $parameterValue)
         {
-            $className = __NAMESPACE__ . '\APIQuery\Actions\\' . studly_case($parameterKey);
+            $className = __NAMESPACE__ . '\APIQuery\Actions\\' . Str::studly($parameterKey);
 
             if(!class_exists($className)) continue;
 
